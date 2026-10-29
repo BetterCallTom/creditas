@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- infra/postgres.yml
+- infra/redis.yml
+- infra/kafka.yml
+- infra/migrate-job.yml
+- shared/config.yml
+- auth-service/auth-service.yml
+- score-service/score-service.yml
+- consulta-service/consulta-service.yml
+- notification-worker/notification-worker.yml
+- gateway/gateway.yml
+configMapGenerator:
+- name: migrations
+  namespace: creditas
+  files:
+  - migrations/000001_init.down.sql
+  - migrations/000001_init.up.sql
+  - migrations/000002_seed.down.sql
+  - migrations/000002_seed.up.sql

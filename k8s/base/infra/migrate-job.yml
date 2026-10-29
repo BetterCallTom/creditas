@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate
+  namespace: creditas
+spec:
+  backoffLimit: 10
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: migrate
+        image: migrate/migrate:v4.20.1
+        args:
+        - -path=/migrations
+        - -database=postgres://credita:credita@postgres:5432/credita?sslmode=disable
+        - up
+        volumeMounts:
+        - name: migrations
+          mountPath: /migrations
+          readOnly: true
+      volumes:
+      - name: migrations
+        configMap:
+          name: migrations

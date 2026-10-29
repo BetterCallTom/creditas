@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consulta-service
+  namespace: creditas
+  labels:
+    app: consulta-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: consulta-service
+  template:
+    metadata:
+      labels:
+        app: consulta-service
+    spec:
+      containers:
+      - name: consulta-service
+        image: localhost/creditas/consulta-service:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: creditas-config
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: creditas-secret
+              key: DATABASE_URL
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 300m
+            memory: 128Mi
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: consulta-service
+  namespace: creditas
+spec:
+  selector:
+    app: consulta-service
+  ports:
+  - port: 8080
+    targetPort: 8080

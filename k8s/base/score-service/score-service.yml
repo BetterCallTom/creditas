@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: score-service
+  namespace: creditas
+  labels:
+    app: score-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: score-service
+  template:
+    metadata:
+      labels:
+        app: score-service
+    spec:
+      containers:
+      - name: score-service
+        image: localhost/creditas/score-service:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: creditas-config
+        env:
+        - name: SCORE_LATENCY
+          value: 0ms
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: creditas-secret
+              key: DATABASE_URL
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 300m
+            memory: 128Mi
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: score-service
+  namespace: creditas
+spec:
+  selector:
+    app: score-service
+  ports:
+  - port: 8080
+    targetPort: 8080

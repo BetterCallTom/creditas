@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: creditas-dev
+resources:
+- ../../base
+replicas:
+- name: gateway
+  count: 1
+- name: auth-service
+  count: 1
+- name: score-service
+  count: 1
+- name: consulta-service
+  count: 1
