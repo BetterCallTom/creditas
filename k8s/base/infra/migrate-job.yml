@@ -3,6 +3,9 @@ kind: Job
 metadata:
   name: migrate
   namespace: creditas
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
 spec:
   backoffLimit: 10
   template:
