@@ -15,6 +15,14 @@ spec:
       labels:
         app: notification-worker
     spec:
+      initContainers:
+        - name: create-topic
+          image: apache/kafka:4.4.0
+          command:
+            - /bin/sh
+            - -c
+            - until /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists --topic consultas --partitions 1 --replication-factor 1; do sleep 3; done
+
       containers:
       - name: notification-worker
         image: localhost/creditas/notification-worker:v1
