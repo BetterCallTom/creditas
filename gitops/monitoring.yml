@@ -23,6 +23,7 @@ spec:
             retention: 2d
             serviceMonitorSelectorNilUsesHelmValues: false
             podMonitorSelectorNilUsesHelmValues: false
+            ruleSelectorNilUsesHelmValues: false
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
