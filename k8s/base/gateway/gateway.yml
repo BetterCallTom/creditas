@@ -20,7 +20,8 @@ spec:
         image: localhost/creditas/gateway:v1
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8080
+        - name: http
+          containerPort: 8080
         envFrom:
         - configMapRef:
             name: creditas-config

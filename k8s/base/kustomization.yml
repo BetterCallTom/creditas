@@ -11,6 +11,7 @@ resources:
 - consulta-service/consulta-service.yml
 - notification-worker/notification-worker.yml
 - gateway/gateway.yml
+- observability/podmonitor.yml
 configMapGenerator:
 - name: migrations
   namespace: creditas

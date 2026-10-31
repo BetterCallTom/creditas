@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: creditas-apps
+spec:
+  selector:
+    matchExpressions:
+    - key: app
+      operator: In
+      values:
+      - gateway
+      - auth-service
+      - score-service
+      - consulta-service
+      - notification-worker
+  podMetricsEndpoints:
+  - port: http
+    path: /metrics
