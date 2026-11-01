@@ -9,6 +9,7 @@ data:
   KAFKA_BROKERS: kafka:9092
   KAFKA_TOPIC: consultas
   REDIS_URL: redis://redis:6379/0
+  TZ: America/Sao_Paulo
 ---
 apiVersion: v1
 kind: Secret
