@@ -34,10 +34,10 @@ spec:
           value: http://consulta-service:8080
         resources:
           requests:
-            cpu: 50m
+            cpu: 100m
             memory: 64Mi
           limits:
-            cpu: 300m
+            cpu: 500m
             memory: 128Mi
         readinessProbe:
           tcpSocket:

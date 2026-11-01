@@ -12,6 +12,7 @@ resources:
 - notification-worker/notification-worker.yml
 - gateway/gateway.yml
 - observability/podmonitor.yml
+- hpa/autoscale.yml
 configMapGenerator:
 - name: migrations
   namespace: creditas
