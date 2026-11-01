@@ -99,6 +99,7 @@ func main() {
 		Balancer:               &kafka.Hash{},
 		AllowAutoTopicCreation: true,
 		RequiredAcks:           kafka.RequireOne,
+		BatchTimeout:           10 * time.Millisecond,
 	}
 	defer writer.Close()
 

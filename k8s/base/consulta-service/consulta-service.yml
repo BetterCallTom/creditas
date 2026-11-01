@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: consulta-service
-        image: localhost/creditas/consulta-service:v1
+        image: localhost/creditas/consulta-service:v2
         imagePullPolicy: IfNotPresent
         ports:
         - name: http
