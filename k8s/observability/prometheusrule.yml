@@ -8,26 +8,26 @@ spec:
     rules:
     - alert: Taxa elevada de erros
       expr: |
-        sum by (service, namespace) (rate(http_requests_total{namespace=~"creditas-.*",status=~"5.."}[5m]))
+        sum by (service, namespace) (rate(http_requests_total{namespace=~"creditas-.*",status=~"5.."}[1m]))
         /
         sum by (service, namespace) (rate(http_requests_total{namespace=~"creditas-.*"}[5m]))
-        > 0.05
+        * 100 > 5
       for: 2m
       labels:
         severity: critical
       annotations:
         descricao: |
-          O serviço **{{ $labels.service }}** ({{ $labels.namespace }}) está com **{{ $value | humanizePercentage }}** de erros 5xx
+          O serviço **{{ $labels.service }}** ({{ $labels.namespace }}) está com **{{ printf "%.0f" $value }}%** de erros 5xx
 
     - alert: Alta latência
       expr: |
-        histogram_quantile(0.95, sum by (le, service, namespace) (rate(http_request_duration_seconds_bucket{namespace=~"creditas-.*"}[5m]))) > 0.001
-      for: 1m
+        histogram_quantile(0.95, sum by (le, service, namespace) (rate(http_request_duration_seconds_bucket{namespace=~"creditas-.*"}[5m]))) * 1000 > 1
+      for: 0s
       labels:
         severity: warning
       annotations:
         descricao: |
-          O serviço **{{ $labels.service }}** ({{ $labels.namespace }}) está com latência p95 de **{{ $value | humanizeDuration }}**
+          O serviço **{{ $labels.service }}** ({{ $labels.namespace }}) está com latência p95 de **{{ printf "%.0f" $value }}ms**
 
     - alert: Back-end offline
       expr: up{job=~"creditas-.*/creditas-apps"} == 0

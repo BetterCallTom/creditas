@@ -57,9 +57,8 @@ spec:
                   🚨 {{ .CommonLabels.alertname }}
                 message: |
                   {{- range .Alerts }}
-                  **Alerta**: {{ .Annotations.descricao }}
+                  ### **Alerta**: {{ .Annotations.descricao }}
                   {{- end }}
-                  {{ "" }}
                   -# Mensagem gerada automaticamente pelo Alertmanager
 
   destination:
