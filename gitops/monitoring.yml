@@ -40,13 +40,13 @@ spec:
               group_by:
               - alertname
               - service
-              group_wait: 30s
-              group_interval: 5m
+              group_wait: 5s
+              group_interval: 30s
               repeat_interval: 4h
               routes:
               - receiver: discord
                 matchers:
-                - alertname =~ "Creditas.*"
+                - namespace =~ "creditas-.*"
             receivers:
             - name: "null"
             - name: discord
@@ -57,8 +57,10 @@ spec:
                   🚨 {{ .CommonLabels.alertname }}
                 message: |
                   {{- range .Alerts }}
-                  **Alerta**: {{ .Annotations.summary }}
+                  **Alerta**: {{ .Annotations.descricao }}
                   {{- end }}
+                  {{ "" }}
+                  -# Mensagem gerada automaticamente pelo Alertmanager
 
   destination:
     server: https://kubernetes.default.svc

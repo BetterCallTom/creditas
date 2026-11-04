@@ -6,7 +6,7 @@ spec:
   groups:
   - name: creditas.rules
     rules:
-    - alert: CreditasHighErrorRate
+    - alert: Taxa elevada de erros
       expr: |
         sum by (service, namespace) (rate(http_requests_total{namespace=~"creditas-.*",status=~"5.."}[5m]))
         /
@@ -16,24 +16,24 @@ spec:
       labels:
         severity: critical
       annotations:
-        titulo: Taxa de erros elevada
-        descricao: o serviço **{{ $labels.service }}** ({{ $labels.namespace }}) está com **{{ $value | humanizePercentage }}** de erros 5xx
+        descricao: |
+          O serviço **{{ $labels.service }}** ({{ $labels.namespace }}) está com **{{ $value | humanizePercentage }}** de erros 5xx
 
-    - alert: CreditasHighLatencyP95
+    - alert: Alta latência
       expr: |
         histogram_quantile(0.95, sum by (le, service, namespace) (rate(http_request_duration_seconds_bucket{namespace=~"creditas-.*"}[5m]))) > 0.001
       for: 1m
       labels:
         severity: warning
       annotations:
-        titulo: Latência elevada
-        descricao: o serviço **{{ $labels.service }}** ({{ $labels.namespace }}) está com latência p95 de **{{ $value | humanizeDuration }}**
+        descricao: |
+          O serviço **{{ $labels.service }}** ({{ $labels.namespace }}) está com latência p95 de **{{ $value | humanizeDuration }}**
 
-    - alert: CreditasTargetDown
+    - alert: Back-end offline
       expr: up{job=~"creditas-.*/creditas-apps"} == 0
       for: 1m
       labels:
         severity: critical
       annotations:
-        titulo: Serviço fora do ar
-        descricao: o pod **{{ $labels.pod }}** ({{ $labels.namespace }}) está **FORA DO AR**
+        descricao: |
+          O pod **{{ $labels.pod }}** ({{ $labels.namespace }}) está **FORA DO AR**
