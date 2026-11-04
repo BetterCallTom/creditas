@@ -12,9 +12,14 @@ spec:
     helm:
       valuesObject:
         grafana:
+          persistence:
+            enabled: true
+            size: 1Gi
+            storageClassName: local-path
           service:
             type: NodePort
             nodePort: 30300
+
         prometheus:
           service:
             type: NodePort

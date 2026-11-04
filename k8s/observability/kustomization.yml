@@ -3,3 +3,12 @@ kind: Kustomization
 namespace: monitoring
 resources:
 - prometheusrule.yml
+
+configMapGenerator:
+  - name: creditas-app-dashboard
+    files:
+      - creditas-app.json
+    options:
+      disableNameSuffixHash: true
+      labels:
+        grafana_dashboard: "1"
