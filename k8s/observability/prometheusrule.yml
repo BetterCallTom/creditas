@@ -17,10 +17,11 @@ spec:
         severity: critical
       annotations:
         summary: Taxa de erro 5xx acima de 5% em {{ $labels.service }}
+
     - alert: CreditasHighLatencyP95
       expr: |
-        histogram_quantile(0.95, sum by (le, service, namespace) (rate(http_request_duration_seconds_bucket{namespace=~"creditas-.*"}[5m]))) > 1
-      for: 5m
+        histogram_quantile(0.95, sum by (le, service, namespace) (rate(http_request_duration_seconds_bucket{namespace=~"creditas-.*"}[5m]))) > 0.05
+      for: 1m
       labels:
         severity: warning
       annotations:
