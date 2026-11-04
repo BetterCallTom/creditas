@@ -1,73 +1,39 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
 metadata:
-  name: monitoring
-  namespace: argocd
+  name: creditas-alerts
 spec:
-  project: default
-  source:
-    repoURL: https://prometheus-community.github.io/helm-charts
-    chart: kube-prometheus-stack
-    targetRevision: 92.16.1
-    helm:
-      valuesObject:
-        grafana:
-          persistence:
-            enabled: true
-            size: 1Gi
-            storageClassName: local-path
-          service:
-            type: NodePort
-            nodePort: 30300
+  groups:
+  - name: creditas.rules
+    rules:
+    - alert: CreditasHighErrorRate
+      expr: |
+        sum by (service, namespace) (rate(http_requests_total{namespace=~"creditas-.*",status=~"5.."}[5m]))
+        /
+        sum by (service, namespace) (rate(http_requests_total{namespace=~"creditas-.*"}[5m]))
+        > 0.05
+      for: 2m
+      labels:
+        severity: critical
+      annotations:
+        titulo: Taxa de erros elevada
+        descricao: o serviço **{{ $labels.service }}** ({{ $labels.namespace }}) está com **{{ $value | humanizePercentage }}** de erros 5xx
 
-        prometheus:
-          service:
-            type: NodePort
-            nodePort: 30900
-          prometheusSpec:
-            retention: 2d
-            serviceMonitorSelectorNilUsesHelmValues: false
-            podMonitorSelectorNilUsesHelmValues: false
-            ruleSelectorNilUsesHelmValues: false
+    - alert: CreditasHighLatencyP95
+      expr: |
+        histogram_quantile(0.95, sum by (le, service, namespace) (rate(http_request_duration_seconds_bucket{namespace=~"creditas-.*"}[5m]))) > 0.001
+      for: 1m
+      labels:
+        severity: warning
+      annotations:
+        titulo: Latência elevada
+        descricao: o serviço **{{ $labels.service }}** ({{ $labels.namespace }}) está com latência p95 de **{{ $value | humanizeDuration }}**
 
-        alertmanager:
-          alertmanagerSpec:
-            secrets:
-              - alertmanager-discord-webhook
-          config:
-            route:
-              receiver: "null"
-              group_by:
-              - alertname
-              - service
-              group_wait: 30s
-              group_interval: 5m
-              repeat_interval: 4h
-              routes:
-              - receiver: discord
-                matchers:
-                - alertname =~ "Creditas.*"
-            receivers:
-            - name: "null"
-            - name: discord
-              discord_configs:
-              - send_resolved: true
-                webhook_url_file: /etc/alertmanager/secrets/alertmanager-discord-webhook/url
-                title: |
-                  🚨 {{ .CommonAnnotations.titulo }}
-                message: |
-                  {{- range .Alerts }}
-                  **Alerta**: {{ .Annotations.descricao }}
-                  {{- end }}
-                  {{ "" }}
-                  -# Mensagem gerada automaticamente pelo Alertmanager
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: monitoring
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
-    - ServerSideApply=true
+    - alert: CreditasTargetDown
+      expr: up{job=~"creditas-.*/creditas-apps"} == 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        titulo: Serviço fora do ar
+        descricao: o pod **{{ $labels.pod }}** ({{ $labels.namespace }}) está **FORA DO AR**
