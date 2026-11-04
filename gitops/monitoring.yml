@@ -60,7 +60,7 @@ spec:
                   **Alerta**: {{ .Annotations.descricao }}
                   {{- end }}
                   {{ "" }}
-                  -# Mensagem gerada automaticamente pelo Alertmanager
+                  *Mensagem gerada automaticamente pelo Alertmanager*
 
   destination:
     server: https://kubernetes.default.svc
