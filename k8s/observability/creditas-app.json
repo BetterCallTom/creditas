@@ -4,18 +4,22 @@
   "metadata": {
     "name": "adppv6z",
     "namespace": "default",
-    "uid": "61dfa530-5049-41e7-a657-b4060c2252e1",
-    "resourceVersion": "1793803061554996",
-    "generation": 5,
-    "creationTimestamp": "2026-11-04T14:34:34Z",
+    "uid": "2dc4981a-5624-408f-b46a-8a09b5708950",
+    "resourceVersion": "1793821641896984",
+    "generation": 1,
+    "creationTimestamp": "2026-11-04T19:47:21Z",
     "labels": {
-      "grafana.app/deprecatedInternalID": "1297056150183936"
+      "grafana.app/deprecatedInternalID": "1375773487828992"
     },
     "annotations": {
-      "grafana.app/createdBy": "user:bg3a3b1isz9q8f",
-      "grafana.app/saved-from-ui": "Grafana v13.3.0 (6f8ce3c693)",
-      "grafana.app/updatedBy": "user:bg3a3b1isz9q8f",
-      "grafana.app/updatedTimestamp": "2026-11-04T14:37:41Z"
+      "grafana.app/createdBy": "access-policy:service",
+      "grafana.app/managedBy": "classic-file-provisioning",
+      "grafana.app/managerId": "sidecarProvider",
+      "grafana.app/sourceChecksum": "d596447648b8f923cbad8011bb056edb",
+      "grafana.app/sourcePath": "/tmp/dashboards/creditas-app.json",
+      "grafana.app/sourceTimestamp": "1793821612000",
+      "grafana.app/updatedBy": "access-policy:service",
+      "grafana.app/folder": ""
     }
   },
   "spec": {
@@ -23,20 +27,20 @@
       {
         "kind": "AnnotationQuery",
         "spec": {
-          "query": {
-            "kind": "DataQuery",
-            "group": "grafana",
-            "version": "v0",
-            "datasource": {
-              "name": "-- Grafana --"
-            },
-            "spec": {}
-          },
+          "builtIn": true,
           "enable": true,
           "hide": true,
           "iconColor": "rgba(0, 211, 255, 1)",
           "name": "Annotations & Alerts",
-          "builtIn": true
+          "query": {
+            "datasource": {
+              "name": "-- Grafana --"
+            },
+            "group": "grafana",
+            "kind": "DataQuery",
+            "spec": {},
+            "version": "v0"
+          }
         }
       }
     ],
@@ -46,10 +50,6 @@
       "panel-1": {
         "kind": "Panel",
         "spec": {
-          "id": 1,
-          "title": "Requests per second",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -57,62 +57,39 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "prometheus"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "sum by (service) (rate(http_requests_total{namespace=\"creditas-dev\"}[5m]))",
                         "legendFormat": "__auto",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 1,
+          "links": [],
+          "title": "Requests per second",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "13.3.0",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -149,21 +126,44 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
                   }
                 },
                 "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "13.3.0"
           }
         }
       },
       "panel-2": {
         "kind": "Panel",
         "spec": {
-          "id": 2,
-          "title": "5xx Error Rate",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -171,62 +171,39 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "prometheus"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "sum by (service) (rate(http_requests_total{namespace=\"creditas-dev\",status=~\"5..\"}[5m])) / sum by (service) (rate(http_requests_total{namespace=\"creditas-dev\"}[5m]))",
                         "legendFormat": "__auto",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 2,
+          "links": [],
+          "title": "5xx Error Rate",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "13.3.0",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -263,21 +240,44 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
                   }
                 },
                 "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "13.3.0"
           }
         }
       },
       "panel-3": {
         "kind": "Panel",
         "spec": {
-          "id": 3,
-          "title": "Latency (p95)",
-          "description": "",
-          "links": [],
           "data": {
             "kind": "QueryGroup",
             "spec": {
@@ -285,62 +285,39 @@
                 {
                   "kind": "PanelQuery",
                   "spec": {
+                    "hidden": false,
                     "query": {
-                      "kind": "DataQuery",
-                      "group": "prometheus",
-                      "version": "v0",
                       "datasource": {
                         "name": "prometheus"
                       },
+                      "group": "prometheus",
+                      "kind": "DataQuery",
                       "spec": {
                         "editorMode": "code",
                         "expr": "histogram_quantile(0.95, sum by (le, service) (rate(http_request_duration_seconds_bucket{namespace=\"creditas-dev\"}[5m])))",
                         "legendFormat": "__auto",
                         "range": true
-                      }
+                      },
+                      "version": "v0"
                     },
-                    "refId": "A",
-                    "hidden": false
+                    "refId": "A"
                   }
                 }
               ],
-              "transformations": [],
-              "queryOptions": {}
+              "queryOptions": {},
+              "transformations": []
             }
           },
+          "description": "",
+          "id": 3,
+          "links": [],
+          "title": "Latency (p95)",
           "vizConfig": {
-            "kind": "VizConfig",
             "group": "timeseries",
-            "version": "13.3.0",
+            "kind": "VizConfig",
             "spec": {
-              "options": {
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "single",
-                  "sort": "none"
-                }
-              },
               "fieldConfig": {
                 "defaults": {
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "value": 0,
-                        "color": "green"
-                      },
-                      {
-                        "value": 80,
-                        "color": "red"
-                      }
-                    ]
-                  },
                   "color": {
                     "mode": "palette-classic"
                   },
@@ -377,11 +354,38 @@
                     "thresholdsStyle": {
                       "mode": "off"
                     }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": 0
+                      },
+                      {
+                        "color": "red",
+                        "value": 80
+                      }
+                    ]
                   }
                 },
                 "overrides": []
+              },
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
               }
-            }
+            },
+            "version": "13.3.0"
           }
         }
       }
@@ -389,9 +393,7 @@
     "layout": {
       "kind": "AutoGridLayout",
       "spec": {
-        "maxColumnCount": 3,
         "columnWidthMode": "standard",
-        "rowHeightMode": "standard",
         "items": [
           {
             "kind": "AutoGridLayoutItem",
@@ -420,18 +422,28 @@
               }
             }
           }
-        ]
+        ],
+        "maxColumnCount": 3,
+        "rowHeightMode": "standard"
       }
     },
     "links": [],
     "liveNow": false,
+    "preferences": {
+      "layout": {
+        "kind": "AutoGridLayout",
+        "spec": {
+          "columnWidthMode": "standard",
+          "items": [],
+          "maxColumnCount": 3,
+          "rowHeightMode": "standard"
+        }
+      }
+    },
     "preload": false,
     "tags": [],
     "timeSettings": {
-      "timezone": "browser",
-      "from": "now-6h",
-      "to": "now",
-      "autoRefresh": "",
+      "autoRefresh": "5s",
       "autoRefreshIntervals": [
         "5s",
         "10s",
@@ -444,21 +456,13 @@
         "2h",
         "1d"
       ],
+      "fiscalYearStartMonth": 0,
+      "from": "now-15m",
       "hideTimepicker": false,
-      "fiscalYearStartMonth": 0
+      "timezone": "browser",
+      "to": "now"
     },
     "title": "Creditas App",
-    "variables": [],
-    "preferences": {
-      "layout": {
-        "kind": "AutoGridLayout",
-        "spec": {
-          "maxColumnCount": 3,
-          "columnWidthMode": "standard",
-          "rowHeightMode": "standard",
-          "items": []
-        }
-      }
-    }
+    "variables": []
   }
 }
