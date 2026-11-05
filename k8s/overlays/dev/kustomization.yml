@@ -4,11 +4,27 @@ namespace: creditas-dev
 resources:
 - ../../base
 replicas:
-- name: gateway
-  count: 1
-- name: auth-service
-  count: 1
-- name: score-service
-  count: 1
-- name: consulta-service
-  count: 1
+- count: 1
+  name: gateway
+- count: 1
+  name: auth-service
+- count: 1
+  name: score-service
+- count: 1
+  name: consulta-service
+images:
+- name: localhost/creditas/auth-service
+  newName: ghcr.io/bettercalltom/creditas/auth-service
+  newTag: sha-52cd405
+- name: localhost/creditas/consulta-service
+  newName: ghcr.io/bettercalltom/creditas/consulta-service
+  newTag: sha-52cd405
+- name: localhost/creditas/gateway
+  newName: ghcr.io/bettercalltom/creditas/gateway
+  newTag: sha-52cd405
+- name: localhost/creditas/notification-worker
+  newName: ghcr.io/bettercalltom/creditas/notification-worker
+  newTag: sha-52cd405
+- name: localhost/creditas/score-service
+  newName: ghcr.io/bettercalltom/creditas/score-service
+  newTag: sha-52cd405
