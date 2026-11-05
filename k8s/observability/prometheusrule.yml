@@ -21,8 +21,8 @@ spec:
 
     - alert: Alta latência
       expr: |
-        histogram_quantile(0.95, sum by (le, service, namespace) (rate(http_request_duration_seconds_bucket{namespace=~"creditas-.*"}[1m]))) * 1000 > 1
-      for: 0s
+        histogram_quantile(0.95, sum by (le, service, namespace) (rate(http_request_duration_seconds_bucket{namespace=~"creditas-.*"}[5m]))) * 1000 > 1000
+      for: 1m
       labels:
         severity: warning
       annotations:
