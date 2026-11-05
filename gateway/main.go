@@ -50,7 +50,7 @@ func main() {
 
 	shutdownTelemetry, err := telemetry.Setup(context.Background(), serviceName, settings.otelEndpoint)
 	if err != nil {
-		logger.Error("falha ao iniciar telemetria", slog.String("error", err.Error()))
+		logger.Error("Falha ao iniciar telemetria", slog.String("error", err.Error()))
 		return
 	}
 	defer func() {
