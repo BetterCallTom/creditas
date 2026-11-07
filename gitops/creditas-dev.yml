@@ -18,8 +18,13 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
+    - RespectIgnoreDifferences=true
   ignoreDifferences:
-    - group: argoproj.io
-      kind: Rollout
-      jsonPointers:
-        - /spec/replicas
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas
+  - group: argoproj.io
+    kind: Rollout
+    jsonPointers:
+    - /spec/replicas
