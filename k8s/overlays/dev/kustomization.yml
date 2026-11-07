@@ -5,13 +5,20 @@ resources:
 - ../../base
 replicas:
 - count: 1
-  name: gateway
-- count: 1
   name: auth-service
 - count: 1
   name: score-service
 - count: 1
   name: consulta-service
+patches:
+- target:
+    group: argoproj.io
+    kind: Rollout
+    name: gateway
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 1
 images:
 - name: localhost/creditas/auth-service
   newName: ghcr.io/bettercalltom/creditas/auth-service
