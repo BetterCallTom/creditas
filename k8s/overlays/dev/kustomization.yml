@@ -22,16 +22,16 @@ patches:
 images:
 - name: localhost/creditas/auth-service
   newName: ghcr.io/bettercalltom/creditas/auth-service
-  newTag: sha-aa22912
+  newTag: v4
 - name: localhost/creditas/consulta-service
   newName: ghcr.io/bettercalltom/creditas/consulta-service
-  newTag: sha-aa22912
+  newTag: v4
 - name: localhost/creditas/gateway
   newName: ghcr.io/bettercalltom/creditas/gateway
-  newTag: sha-aa22912
+  newTag: v4
 - name: localhost/creditas/notification-worker
   newName: ghcr.io/bettercalltom/creditas/notification-worker
-  newTag: sha-aa22912
+  newTag: v4
 - name: localhost/creditas/score-service
   newName: ghcr.io/bettercalltom/creditas/score-service
-  newTag: sha-aa22912
+  newTag: v4
