@@ -93,7 +93,7 @@ func main() {
 func newProxy(logger *slog.Logger, target string) *httputil.ReverseProxy {
 	parsed, err := url.Parse(target)
 	if err != nil {
-		logger.Error("url de destino invalida", slog.String("target", target), slog.String("error", err.Error()))
+		logger.Error("URL de destino invalida", slog.String("target", target), slog.String("error", err.Error()))
 	}
 	proxy := httputil.NewSingleHostReverseProxy(parsed)
 	proxy.Transport = otelhttp.NewTransport(http.DefaultTransport)
