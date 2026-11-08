@@ -66,6 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v7
+      with:
+        ref: main
     - run: echo "IMAGE_TAG=v${GITHUB_RUN_NUMBER}" >> "$GITHUB_ENV"
     - working-directory: k8s/overlays/dev
       run: |
