@@ -88,7 +88,7 @@ func main() {
 
 	pool, err := pgxpool.New(context.Background(), settings.databaseURL)
 	if err != nil {
-		logger.Error("falha ao conectar no postgres", slog.String("error", err.Error()))
+		logger.Error("Falha ao conectar no postgres", slog.String("error", err.Error()))
 		return
 	}
 	defer pool.Close()
