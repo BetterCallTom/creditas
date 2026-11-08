@@ -11,27 +11,27 @@ replicas:
 - count: 1
   name: consulta-service
 patches:
-- target:
-    group: argoproj.io
-    kind: Rollout
-    name: gateway
-  patch: |-
+- patch: |-
     - op: replace
       path: /spec/replicas
       value: 1
+  target:
+    group: argoproj.io
+    kind: Rollout
+    name: gateway
 images:
 - name: localhost/creditas/auth-service
   newName: ghcr.io/bettercalltom/creditas/auth-service
-  newTag: sha-617430c
+  newTag: sha-aa22912
 - name: localhost/creditas/consulta-service
   newName: ghcr.io/bettercalltom/creditas/consulta-service
-  newTag: sha-617430c
+  newTag: sha-aa22912
 - name: localhost/creditas/gateway
   newName: ghcr.io/bettercalltom/creditas/gateway
-  newTag: sha-617430c
+  newTag: sha-aa22912
 - name: localhost/creditas/notification-worker
   newName: ghcr.io/bettercalltom/creditas/notification-worker
-  newTag: sha-617430c
+  newTag: sha-aa22912
 - name: localhost/creditas/score-service
   newName: ghcr.io/bettercalltom/creditas/score-service
-  newTag: sha-617430c
+  newTag: sha-aa22912
