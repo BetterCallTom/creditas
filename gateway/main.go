@@ -98,7 +98,7 @@ func newProxy(logger *slog.Logger, target string) *httputil.ReverseProxy {
 	proxy := httputil.NewSingleHostReverseProxy(parsed)
 	proxy.Transport = otelhttp.NewTransport(http.DefaultTransport)
 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
-		logger.Error("falha ao encaminhar requisicao", slog.String("target", target), slog.String("error", err.Error()))
+		logger.Error("Falha ao encaminhar requisicao", slog.String("target", target), slog.String("error", err.Error()))
 		httpx.WriteJSON(w, http.StatusBadGateway, map[string]string{"error": "servico indisponivel"})
 	}
 	return proxy
